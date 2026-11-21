@@ -1,0 +1,25 @@
+
+{
+  "name": "payments-system-backend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Production-grade distributed payment gateway built with microservices architecture",
+  "type": "commonjs",
+  "workspaces": [
+    "services/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "test": "npm run test --workspaces --if-present",
+    "test:services": "npm run test --workspace=services/payment-service --if-present",
+    "test:packages": "npm run test --workspace=packages/contracts --if-present"
+  },
+  "keywords": [
+    "payment-gateway",
+    "microservices",
+    "distributed-systems",
+    "fintech"
+  ],
+  "author": "",
+  "license": "UNLICENSED"
+}

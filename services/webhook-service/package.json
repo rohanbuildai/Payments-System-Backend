@@ -1,0 +1,11 @@
+﻿{
+    "version":  "1.0.0",
+    "name":  "@payment-gateway/webhook-service",
+    "main":  "src/server.js",
+    "description":  "webhook-service for the distributed payment gateway",
+    "scripts":  {
+                    "test":  "echo \"No tests configured yet\""
+                },
+    "type":  "commonjs",
+    "private":  true
+}

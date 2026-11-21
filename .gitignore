@@ -1,0 +1,48 @@
+
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Runtime data
+pids/
+*.pid
+*.seed
+
+# Coverage
+coverage/
+.nyc_output/
+
+# Build output
+dist/
+build/
+
+# Temporary files
+tmp/
+temp/
+
+# IDE
+.vscode/*
+!.vscode/extensions.json
+.idea/
+
+# Operating system
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Test artifacts
+playwright-report/
+test-results/
+
+# Local infrastructure data
+infrastructure/data/
