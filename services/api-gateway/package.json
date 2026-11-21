@@ -3,9 +3,15 @@
     "name":  "@payment-gateway/api-gateway",
     "main":  "src/server.js",
     "description":  "api-gateway for the distributed payment gateway",
-    "scripts":  {
-                    "test":  "echo \"No tests configured yet\""
-                },
+    "scripts": {
+    "start": "node src/server.js",
+    "test": "node --test"
+  },
     "type":  "commonjs",
-    "private":  true
+    "private":  true ,
+     "dependencies": {
+    "@payment-gateway/config": "1.0.0",
+    "@payment-gateway/logger": "1.0.0",
+    "@payment-gateway/service-runtime": "1.0.0"
+  }
 }
