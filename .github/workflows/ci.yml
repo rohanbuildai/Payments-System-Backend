@@ -3,14 +3,41 @@ name: Payment Gateway CI
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+      - "feature/**"
+
   pull_request:
-    branches: [main]
+    branches:
+      - main
+
+permissions:
+  contents: read
 
 jobs:
   validate:
     name: Validate Monorepo
     runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_DB: merchant_service_test_db
+          POSTGRES_USER: merchant_service_test
+          POSTGRES_PASSWORD: merchant_service_test_password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U merchant_service_test -d merchant_service_test_db"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      CI: true
+      MERCHANT_DATABASE_URL: postgresql://merchant_service_test:merchant_service_test_password@localhost:5432/merchant_service_test_db
+      MERCHANT_TEST_DATABASE_URL: postgresql://merchant_service_test:merchant_service_test_password@localhost:5432/merchant_service_test_db
 
     steps:
       - name: Checkout repository
@@ -28,5 +55,12 @@ jobs:
       - name: Verify workspaces
         run: npm run list:workspaces
 
-      - name: Run tests
+      - name: Run Merchant Service test migrations
+        run: npm run db:migrate:test:up --workspace=services/merchant-service
+
+      - name: Run all workspace tests
         run: npm test
+
+      - name: CI completed
+        if: success()
+        run: echo "All Payment Gateway CI checks passed."
