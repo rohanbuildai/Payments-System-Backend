@@ -50,7 +50,29 @@ const createMerchant = async ( {
     return result.rows[0] || null ;
 }
 
+const findMerchantById = async ( { merchantId } ) => {
+    const query = `
+    SELECT id ,
+        business_name ,
+        contact_name ,
+        email ,
+        phone ,
+        business_type ,
+        status ,
+        created_at ,
+        updated_at
+    FROM merchants
+    WHERE id = $1`
+
+    const values = [ merchantId ] ;
+
+    const result = await pool.query( query , values ) ;
+
+    return result.rows[0] || null ;
+}
+
 module.exports = {
     findMerchantByEmail ,
-    createMerchant
+    createMerchant ,
+    findMerchantById
 }

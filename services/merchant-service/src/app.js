@@ -25,13 +25,43 @@ function createMerchantApp({
 
   service.app.use("/api/v1/merchants", merchantRoutes);
 
-  // Register error handler after application routes.
   service.app.use((err, req, res, next) => {
-    logger.error({ err }, "Unhandled Merchant Service error");
-
+    // Delegate if response headers have already been sent.
     if (res.headersSent) {
       return next(err);
     }
+
+    const isClientError =
+      Number.isInteger(err.statusCode) &&
+      err.statusCode >= 400 &&
+      err.statusCode < 500 &&
+      typeof err.code === "string";
+
+    if (isClientError) {
+      logger.warn(
+        {
+          err,
+          requestId: req.id
+        },
+        "Application request error"
+      );
+
+      return res.status(err.statusCode).json({
+        success: false,
+        error: {
+          code: err.code,
+          message: err.message
+        }
+      });
+    }
+
+    logger.error(
+      {
+        err,
+        requestId: req.id
+      },
+      "Unhandled Merchant Service error"
+    );
 
     return res.status(500).json({
       success: false,
