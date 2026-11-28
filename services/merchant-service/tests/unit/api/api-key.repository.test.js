@@ -2,7 +2,7 @@
 const { test, mock } = require("node:test");
 const assert = require("node:assert/strict");
 
-const { pool } = require("../../src/database/connection");
+const { pool } = require("../../../src/database/connection");
 
 const {
     createApiKey,
@@ -10,7 +10,7 @@ const {
     findApiKeyById,
     findApiKeysByMerchant,
     revokeApiKey
-} = require("../../src/features/api-keys/api-key.repository");
+} = require("../../../src/features/api-keys/api-key.repository");
 
 const sampleApiKey = {
     id: "key-uuid-123",

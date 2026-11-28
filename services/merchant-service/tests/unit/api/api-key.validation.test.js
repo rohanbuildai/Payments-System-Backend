@@ -7,7 +7,7 @@ const {
   listApiKeysSchema,
   apiKeyParamsSchema,
   apiKeyResourceParamsSchema
-} = require("../../src/features/api-keys/validators/api-key.validation");
+} = require("../../../src/features/api-keys/validators/api-key.validation");
 
 describe("generateApiKeySchema", () => {
   const validPayload = {

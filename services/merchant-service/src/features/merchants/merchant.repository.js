@@ -24,7 +24,7 @@ const findMerchantByEmail = async (email) => {
 
 const createMerchant = async ( { 
     business_name , contact_name , email , phone , business_type 
-}) => {
+}, client = pool) => {
     const query = `
     INSERT INTO merchants (
         business_name ,
@@ -45,10 +45,38 @@ const createMerchant = async ( {
 
     const values = [ business_name , contact_name , email , phone , business_type ] ;
 
-    const result = await pool.query( query , values ) ;
+    const result = await client.query( query , values ) ;
 
     return result.rows[0] || null ;
 }
+
+const createMerchantCredentials = async ({
+    merchant_id,
+    password_hash
+}, client = pool) => {
+
+    const query = `
+        INSERT INTO merchant_credentials (
+            merchant_id,
+            password_hash
+        )
+        VALUES ($1, $2)
+        RETURNING
+            merchant_id,
+            password_changed_at,
+            created_at,
+            updated_at
+    `;
+
+    const values = [
+        merchant_id,
+        password_hash
+    ];
+
+    const result = await client.query(query, values);
+
+    return result.rows[0] || null;
+};
 
 const findMerchantById = async ( { merchantId } ) => {
     const query = `
@@ -74,5 +102,6 @@ const findMerchantById = async ( { merchantId } ) => {
 module.exports = {
     findMerchantByEmail ,
     createMerchant ,
-    findMerchantById
+    findMerchantById ,
+    createMerchantCredentials
 }

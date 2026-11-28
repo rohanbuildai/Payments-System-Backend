@@ -1,15 +1,15 @@
 
 const { test, assert } = require("@payment-gateway/testing");
 
-const merchantService = require("../../src/features/merchants/merchant.service");
+const merchantService = require("../../../src/features/merchants/merchant.service");
 
 const {
   registerMerchant
-} = require("../../src/features/merchants/merchant.controller");
+} = require("../../../src/features/merchants/merchant.controller");
 
 const {
   MerchantError
-} = require("../../src/features/merchants/errors/merchant.errors");
+} = require("../../../src/features/merchants/errors/merchant.errors");
 
 function createResponse() {
   return {

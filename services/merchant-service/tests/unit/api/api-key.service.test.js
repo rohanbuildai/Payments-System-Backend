@@ -2,12 +2,12 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
 
-const apiKeyRepository = require("../../src/features/api-keys/api-key.repository");
-const merchantRepository = require("../../src/features/merchants/merchant.repository");
-const apiKeyGenerator = require("../../src/features/api-keys/utils/api-key-generator");
+const apiKeyRepository = require("../../../src/features/api-keys/api-key.repository");
+const merchantRepository = require("../../../src/features/merchants/merchant.repository");
+const apiKeyGenerator = require("../../../src/features/api-keys/utils/api-key-generator");
 
 const servicePath = require.resolve(
-  "../../src/features/api-keys/api-key.service"
+  "../../../src/features/api-keys/api-key.service"
 );
 
 const loadService = (t, overrides = {}) => {

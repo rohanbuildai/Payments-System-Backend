@@ -12,6 +12,7 @@ const merchantRegistrationSchema = z
       .max(16),
 
     business_type: z.string().trim().min(2).max(50),
+    password : z.string().min(12).max(128)
   })
   .strict();
 

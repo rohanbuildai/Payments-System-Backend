@@ -3,14 +3,15 @@ const { test, assert } = require("@payment-gateway/testing");
 
 const {
   merchantRegistrationSchema
-} = require("../../src/features/merchants/validators/merchant.validator");
+} = require("../../../src/features/merchants/validators/merchant.validator");
 
 const validMerchant = {
   business_name: "Tech Solutions",
   contact_name: "Rohan Singh",
   email: "rohan@example.com",
   phone: "+919876543210",
-  business_type: "Technology"
+  business_type: "Technology",
+  password: "SecurePassword@123"
 };
 
 test("accepts valid merchant registration data", () => {
@@ -106,4 +107,71 @@ test("enforces business name length limits", () => {
 
   assert.equal(tooShort.success, false);
   assert.equal(tooLong.success, false);
+});
+
+// Password validation tests
+
+test("accepts a password with exactly 12 characters", () => {
+  const result = merchantRegistrationSchema.safeParse({
+    ...validMerchant,
+    password: "A".repeat(12)
+  });
+
+  assert.equal(result.success, true);
+});
+
+test("accepts a password with exactly 128 characters", () => {
+  const result = merchantRegistrationSchema.safeParse({
+    ...validMerchant,
+    password: "A".repeat(128)
+  });
+
+  assert.equal(result.success, true);
+});
+
+test("rejects a password shorter than 12 characters", () => {
+  const result = merchantRegistrationSchema.safeParse({
+    ...validMerchant,
+    password: "A".repeat(11)
+  });
+
+  assert.equal(result.success, false);
+  assert.ok(result.error.issues.some(
+    issue => issue.path[0] === "password"
+  ));
+});
+
+test("rejects a password longer than 128 characters", () => {
+  const result = merchantRegistrationSchema.safeParse({
+    ...validMerchant,
+    password: "A".repeat(129)
+  });
+
+  assert.equal(result.success, false);
+  assert.ok(result.error.issues.some(
+    issue => issue.path[0] === "password"
+  ));
+});
+
+test("rejects missing password", () => {
+  const { password, ...missingPassword } = validMerchant;
+
+  const result = merchantRegistrationSchema.safeParse(missingPassword);
+
+  assert.equal(result.success, false);
+  assert.ok(result.error.issues.some(
+    issue => issue.path[0] === "password"
+  ));
+});
+
+test("rejects non-string password without coercion", () => {
+  const result = merchantRegistrationSchema.safeParse({
+    ...validMerchant,
+    password: 123456789012
+  });
+
+  assert.equal(result.success, false);
+  assert.ok(result.error.issues.some(
+    issue => issue.path[0] === "password"
+  ));
 });

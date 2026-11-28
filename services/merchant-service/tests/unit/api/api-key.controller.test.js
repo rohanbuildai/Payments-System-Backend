@@ -2,8 +2,8 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
 
-const apiKeyService = require("../../src/features/api-keys/api-key.service");
-const apiKeyController = require("../../src/features/api-keys/api-key.controller");
+const apiKeyService = require("../../../src/features/api-keys/api-key.service");
+const apiKeyController = require("../../../src/features/api-keys/api-key.controller");
 
 
 // --------------------------------------------------

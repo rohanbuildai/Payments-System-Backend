@@ -5,7 +5,7 @@ const {
     generatePublicId,
     generateSecret,
     hashSecret
-} = require("../../src/features/api-keys/utils/api-key-generator");
+} = require("../../../src/features/api-keys/utils/api-key-generator");
 
 // Public ID tests
 
